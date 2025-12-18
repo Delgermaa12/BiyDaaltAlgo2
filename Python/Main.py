@@ -3,10 +3,6 @@ import pyphen
 import math
 import re
 
-
-# =========================
-# Hyphenator (MN + EN)
-# =========================
 class BilingualHyphenator:
     def __init__(self):
         current_dir = pathlib.Path(__file__).parent
@@ -23,9 +19,6 @@ class BilingualHyphenator:
         return [i for i, c in enumerate(inserted) if c == "-"]
 
 
-# =========================
-# Justify (print time only)
-# =========================
 def justify_line(words, width, last_line=False):
     if last_line or len(words) == 1:
         return " ".join(words)
@@ -44,10 +37,6 @@ def justify_line(words, width, last_line=False):
             line += " " * (base + (1 if i < extra else 0))
     return line
 
-
-# =========================
-# DP Algorithm (FIXED)
-# =========================
 def dp(text, width, hy):
     words = text.split()
     n = len(words)
@@ -74,7 +63,6 @@ def dp(text, width, hy):
             w = words[j]
             add_len = len(w) if not line_words else len(w) + 1
 
-            # Normal fit
             if curr_len + add_len <= width:
                 line_words.append(w)
                 curr_len += add_len
@@ -102,9 +90,6 @@ def dp(text, width, hy):
                         break
                 break
 
-    # =========================
-    # Reconstruct (FIXED)
-    # =========================
     lines = []
     i = 0
     while i < n:
@@ -117,9 +102,6 @@ def dp(text, width, hy):
     return lines
 
 
-# =========================
-# Greedy (for comparison)
-# =========================
 def greedy(text, width, hy):
     words = text.split()
     result = []
@@ -158,10 +140,6 @@ def greedy(text, width, hy):
 
     return result
 
-
-# =========================
-# Main
-# =========================
 if __name__ == "__main__":
     hy = BilingualHyphenator()
 
